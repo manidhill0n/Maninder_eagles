@@ -1,0 +1,113 @@
+Knitter_presentation_assign
+========================================================
+author: Maninder Singh
+date: 11/28/2016
+autosize: true
+
+First Slide
+========================================================
+
+- import and export raster data 
+- NDVI calculation
+- Unsupervised classification
+- Calc() and Overlay()
+- focal()
+- Moran and Geary()
+
+import raster data 
+========================================================
+
+band_1<-raster("H:\\Eagle_subjects\\Sem1\\geostatistics\\data\\lt5......data\\LT51930272003195MTI01_B1.tif",band=1)
+band_2<-raster("H:\\Eagle_subjects\\Sem1\\geostatistics\\data\\lt5......data\\LT51930272003195MTI01_B2.tif")
+band_3<-raster("H:\\Eagle_subjects\\Sem1\\geostatistics\\data\\lt5......data\\LT51930272003195MTI01_B3.tif")
+band_4<-raster("H:\\Eagle_subjects\\Sem1\\geostatistics\\data\\lt5......data\\LT51930272003195MTI01_B4.tif")
+
+alladd<-brick(band_1,band_2,band_3,band_4)
+
+object.size(alladd)
+
+
+
+writeRaster(alladd,filename = 'alladd.tif',datatype='FLT4S',overwrite=TRUE)
+Plot the RGB raster
+========================================================
+plotRGB(alladd,3,2,1)
+
+performing NDVI calulations
+========================================================
+
+ndvi<-(alladd[[4]]-alladd[[3]]/alladd[[4]]+alladd[[3]])
+spplot(ndvi)
+
+#NDVI calculation using Functions
+
+func_ndvi<-function(nir,red)
+{
+  (nir-red)/(nir+red)
+}
+
+func_ndvi(allplus[[4]],allplus[[3]])
+
+spplot(func_ndvi(alladd[[4]],alladd[[3]]))
+
+
+
+unsupervised classification
+========================================================
+
+raster.df1<-alladd[]
+
+km_out<-kmeans(raster.df1,12)
+
+kmeans_raster<-raster(raster.df1)
+
+kmeans_raster[]<-km_out$cluster
+
+plot(kmeans_raster)
+
+
+Calc() and Overlay()
+========================================================
+#calc function applies the function on the raster and creates a new raster
+
+fun_1 <- function(x) { x * 10 }
+
+rc1 <- calc(alladd, fun_1)
+
+rc1
+
+# Overlay function applies the function on the two rasters to produce the overlayed raster
+
+overlay_raster <- overlay(alladd, rc1, fun=function(x,y){return(x+y)})
+
+
+focal()
+========================================================
+#focal function is used to assign the value of pixel from its neighborhood pixels by using matrix of weights
+
+focal_raster <- focal(alladd, w=matrix(1/9,nrow=3,ncol=3))
+
+
+Moran and Geary Indices
+========================================================
+#Moran and Geary Indices for spatial auto-corelation
+
+r1v <- runif(10000,min=0,max = 1)
+
+r1 <- raster(nrows=100,ncols=100,vals=r1v)
+
+Moran(r1) 
+
+x1  <-  MoranLocal(r1) 
+
+plot(x1)
+
+Geary(r1) 
+
+x2  <-  GearyLocal(r1) 
+
+plot(x2)
+
+
+
+
