@@ -1,0 +1,15 @@
+Package: lue
+Type: Package
+Title: Light Use efficiency model to estimate biomass
+Version: 0.1.0
+Depends: R(>= 2.10.0)
+Author: Maninder Singh Dhillon, Thorsten Dahms, Christopher Conrad and Martin Wegmann
+Maintainer: Maninder Singh Dhillon <manidhillon1989@gmail.com>
+Description: Contains LUE_BIOMASS function to estimate aboveground biomass firstly by calculating the apar and including the minimum temperature and actual values of light use efficiency.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Imports: raster,ncdf4
+RoxygenNote: 6.0.1
+Repository: CRAN
+Suggests: rmarkdown
