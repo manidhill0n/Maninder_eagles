@@ -48,6 +48,9 @@ data <- all_data_interp %>%
 # changing the colname Area2 into country 
 colnames(data)[2]<-"Country"
 # creating the bar race
+# get Min and Max values of wheat yield
+vmax <- max(data$Value, na.rm=T)
+vmin <- min(data$Value, na.rm=T)
 
 p <- data %>%
   ggplot(aes(x = -rank,y = Value, group = Country)) +
